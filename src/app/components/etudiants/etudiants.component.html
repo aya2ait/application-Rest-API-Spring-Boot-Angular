@@ -1,0 +1,67 @@
+<div class="container mt-5">
+  <!-- Formulaire pour ajouter un étudiant -->
+  <h2>Ajouter un Étudiant</h2>
+  <div class="form-container">
+    <label for="nom_add">Nom:</label>
+    <input id="nom_add" [(ngModel)]="newEtudiant.nom" placeholder="Nom de l'étudiant" name="nom" required>
+
+    <label for="prenom_add">Prénom:</label>
+    <input id="prenom_add" [(ngModel)]="newEtudiant.prenom" placeholder="Prénom de l'étudiant" name="prenom" required>
+
+    <label for="dateNaissance_add">Date de naissance:</label>
+    <input type="date" id="dateNaissance_add" [(ngModel)]="newEtudiant.dateNaissance" placeholder="Date de naissance" name="dateNaissance" required>
+
+    <button (click)="addEtudiant()" class="btn btn-primary">Ajouter Étudiant</button>
+  </div>
+</div>
+
+<!-- Liste des étudiants -->
+<div class="container mt-5">
+  <h2>Liste des Étudiants</h2>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Date de naissance</th>
+      <th>Absences</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let etudiant of etudiants">
+      <td>{{ etudiant.id }}</td>
+      <td>{{ etudiant.nom }}</td>
+      <td>{{ etudiant.prenom }}</td>
+      <td>{{ etudiant.dateNaissance | date: 'yyyy-MM-dd' }}</td>
+      <td>
+        <div *ngFor="let absence of etudiant.absences">
+          <p>{{ absence.dateAbsence | date: 'yyyy-MM-dd' }} - {{ absence.motif }}</p>
+        </div>
+      </td>
+      <td>
+        <button class="btn btn-info" (click)="selectEtudiant(etudiant)">Modifier</button>
+        <button class="btn btn-danger" (click)="deleteEtudiant(etudiant.id)">Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Formulaire pour modifier un étudiant -->
+  <div *ngIf="selectedEtudiant" class="form-container mt-4">
+    <h3>Modifier l'étudiant</h3>
+    <form (ngSubmit)="updateEtudiant()">
+      <label for="nom_edit">Nom:</label>
+      <input id="nom_edit" [(ngModel)]="selectedEtudiant.nom" name="nom" required>
+
+      <label for="prenom_edit">Prénom:</label>
+      <input id="prenom_edit" [(ngModel)]="selectedEtudiant.prenom" name="prenom" required>
+
+      <label for="dateNaissance_edit">Date de naissance:</label>
+      <input id="dateNaissance_edit" [(ngModel)]="selectedEtudiant.dateNaissance" name="dateNaissance" type="date" required>
+
+      <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    </form>
+  </div>
+</div>
